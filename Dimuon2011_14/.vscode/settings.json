@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "Dimuon2011_14_RDF.C": "cpp",
+        "Dimuon2011_14.C": "cpp",
+        "Dimuon2011_14_RDF_old.C": "cpp",
+        "Dimuon2011_local.C": "cpp",
+        "Dimuon2011_14_RDF_v2.C": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

@@ -1,0 +1,14 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/ihor/cms/Dimuon2011_14'
+root Dimuon2011_14.C+ -l -q
+rm Dimuon2011_14_*
+root Dimuon2011_14_RDF.C+ -l -q
+rm Dimuon2011_14_RDF_*
+root Dimuon2011_14_RDF_old.C+ -l -q
+rm Dimuon2011_14_RDF_old_*
+root Dimuon2011_14_RDF_v2.C+ -l -q
+rm Dimuon2011_14_RDF_v2_*
+root Dimuon2011_local.C+ -l -q
+rm Dimuon2011_local_*
+make: Leaving directory '/home/ihor/cms/Dimuon2011_14'
+ 

@@ -1,0 +1,466 @@
+<h3>This is a short description of the used scripts and files</h3>
+<h4>The directory tree looks like that:</h4>
+<pre><code>[imelnyk@naf-cms12]~/public% pwd
+/afs/desy.de/user/i/imelnyk/public
+
+[imelnyk@naf-cms12]~/public% tree
+.
+├── analysis.cpp
+├── cms_data.C
+├── Dimuon2011_14_RDF.C
+├── plot_graphs.py
+├── zeustocms
+└── zeustocms.C
+
+0 directories, 6 files
+</code></pre>
+<p>There are three logical parts of the work: <strong>zeus</strong>, <strong>cms</strong>, and <strong>common</strong>.</p>
+<h5>1. ZEUS</h5>
+<p>The <strong>zeus</strong> part includes the data processing of the ZEUS n-tuples in order to convert the ZEUS variables to the common for CMS <em>NanoAOD</em> format. The agreed variable names for both ZEUS and CMS experiments are different. Some of the ZUES variables are not present in the CMS Documentation, and some of the CMS variables written in the documentation don't have the corresponding analogs in the ZEUS. Therefore, some variables were just renamed, and a lot of variables were calculated or invented (the full list of the variables is shown in the Appendix).</p>
+<h6>1.1 ZEUS to CMS conversion</h6>
+<p>The main code used for the electrons and muon (was done on the Summer Program 2021) conversion is <strong><code>zeustocms.C</code></strong>. The script includes the algorithm of the variables conversion, can be processed on a zeus-naf machine, and doesn't require any special software stack to be sourced from CVMFS. In order to run this program there are two available options:</p>
+<ol>
+<li>
+<p><code>root -l -q zeustocms.C</code></p>
+</li>
+<li>
+<p><code>g++ -o zeustocms `root-config --cflags --libs` zeustocms.C</code></p>
+</li>
+</ol>
+<p>The second command also may be specified by using the <code>-g</code> flag which means debugging mode. (and also any other GNU flag can be added)
+The input ZEUS data is stored in the root files and set by the following command in the conversion script:</p>
+<pre><code>in_chain.Add("/pnfs/desy.de/dphep/online/zeus/z/ntup/07p/v08b/data/root/data_07p*.root");
+</code></pre>
+<p>where <code>in_chain</code> is a <code>ROOT::TChain</code> class object.
+The output file with the converted variables is <code>zeustocms.root</code></p>
+<h6>1.2 ZEUS analysis</h6>
+<p>The first program that is used for this part is the <strong><code>analysis.cpp</code></strong>. This C++ script used the modern <strong>RDataFrame</strong> approach, which has a lot of advantages compared to the old <code>ROOT::TTree::Draw</code> method of data processing. The core idea of the RDataFrame is a so-called <em>lazy evaluation</em>, which is the part of the functional programming paradigm . This concept is implemented by using the <em>smart pointer</em> (the C++ smart pointer, it allows users to make sure that any chunk of memory is not allocated in vain (similar to the links counter and garbage collector in Python), via processing the command only in the time when it is triggered). In the <code>analysis.cpp</code> some new variables were calculated according to the formulas in the final report. The output of this script is a root file that contains the histograms <code>ROOT:TH1D</code>. The <strong><code>analysis.cpp</code></strong> also includes some cuts on the variables.</p>
+<h5>2. CMS</h5>
+<p>The cms part of the work has the analysis code referred to as <strong><code>cms_data.C</code></strong>. This script is responsible for the CMS-side analysis. In the file, the invariant mass of <em>Z -&gt; ee</em> decay (Z is produced due to the Drell-Yan process) is calculated. This script reconstructs the invariant mass of the Z boson by combining two electrons whose kinematic distributions were cut off preliminary. Therefore, some cuts were applied to the CMS variables here. The input root file for this script is called
+<code>Run2011A_DoubleElectron_merged.root</code>, and can be found in the</p>
+<p><code>root://eospublic.cern.ch//eos/opendata/cms/upload/NanoAODRun1/01-Jul-22/</code></p>
+<p>directory on the <em>eospublic</em>.
+The <strong><code>cms_data.C</code></strong> also produces <code>ROOT:TH1D</code> objects.</p>
+<h5>3. COMMON</h5>
+<p>In the common part of the work it was necessary to compare the converted ZEUS variables with the initial CMS variables obtained on the previous step. The comparison can help to have a look at the quality of the conversion, and adjust something...</p>
+<p>The <strong><code>plot_graphs.py</code></strong> is the simple python script for histogram drawing.</p>
+<h5>Appendix</h5>
+<h6>A.1 Useful links</h6>
+<ul>
+<li><a href="https://twiki.cern.ch/twiki/pub/CMSPublic/WorkBookNanoAODRun1/doc_DYJetsToLL_M-50_7TeV.html#Electron">Documentation for CMS Monte Carlo</a></li>
+<li><a href="https://zeusdp.desy.de/ZEUS_ONLY/analysis/comntp/variables/v08/root_variables.html#EM">ZEUS ROOT Ntuples v08a EM</a></li>
+<li><a href="https://www-zeus.desy.de/ZEUS_ONLY/analysis/primer/">Introduction to ZEUS analysis</a></li>
+<li><a href="https://arxiv.org/pdf/2106.12377.pdf">Azimuthal correlations in photoproduction and deep inelastic ep scattering at HERA</a></li>
+<li><a href="https://www2.physnet.uni-hamburg.de/services/biblio/dissertation/dissfbPhysik/___Volltexte/Friederike___Januschek/Friederike___Januschek.pdf">Measurement of e+p Neutral Current Deep Inelastic Scattering with a Longitudinally Polarised Positron Beam and X-ray Radiation Damage for Silicon Sensors</a></li>
+<li><a href="https://zeusdp.desy.de/physics/qcd/thesis/joerg_behr.pdf">Jets at High Q2 at HERA and Test Beam Measurements with the EUDET Pixel Telescope</a></li>
+<li><a href="https://root.cern/doc/master/classROOT_1_1RDataFrame.html"><code>ROOT::RDataFrame</code> Class Reference</a></li>
+<li><a href="https://root.cern.ch/doc/master/group__tutorial__dataframe.html">Dataframe tutorials</a></li>
+</ul>
+<h6>A.2 Full list of the variables</h6>
+<p>Here is the full list of the variables (some of the variables have not been converted):</p>
+<table>
+<thead>
+<tr>
+<th>CMS variable</th>
+<th>CMS description</th>
+<th>Type</th>
+<th>Conversion Formula</th>
+<th>Status</th>
+<th>Detector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Electron_SCeta</td>
+<td>Super Cluster eta</td>
+<td>Float_t</td>
+<td><code>Electron_SCeta_x = Emcalpos[iElectron][0] - PV_x;Electron_SCeta_yEmcalpos[iElectron][1] - PV_y;Electron_SCeta_z = Emcalpos[iElectron][2] - PV_z;R =sqrt(pow(Electron_SCeta_x, 2) + pow(Electron_SCeta_y, 2));Theta = atan2(R,Electron_SCeta_z);Electron_SCeta[iElectron] = -log(tan(Theta / 2));</code></td>
+<td>True</td>
+<td>cal</td>
+</tr>
+<tr>
+<td>Electron_charge</td>
+<td>electric charge</td>
+<td>Int_t</td>
+<td>Emtrkq[EmNcand] (put 0 if e is not from track)</td>
+<td>True</td>
+<td>trk</td>
+</tr>
+<tr>
+<td>Electron_convDcot</td>
+<td>NanoAODplus extension</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_convDist</td>
+<td>NanoAODplus extension</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_convVeto</td>
+<td>pass conversion veto</td>
+<td>Bool_t</td>
+<td>1???</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_convVetoOld</td>
+<td>pass conversion veto</td>
+<td>Bool_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_cutBased</td>
+<td>cut-based ID Fall17 V2 (0:fail, 1:veto, 2:loose, 3:medium, 4:tight)</td>
+<td>Int_t</td>
+<td><code>if (Emprob[iElectron] &lt; 0.001) { Electron_cutBased[iElectron] = 0;}else { if (Emtrknr[iElectron] == 0) { Electron_cutBased[iElectron] = 2;} else {Electron_cutBased[iElectron] = 4; // cut: Electron_cutBased == 4 -- from track}}</code></td>
+<td></td>
+<td>Undef</td>
+</tr>
+<tr>
+<td>Electron_deltaEtaSC</td>
+<td>delta eta (SC, ele) with sign</td>
+<td>Float_t</td>
+<td>Electron_SCeta - Electron_eta</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_deltaEtaSCtr</td>
+<td>NanoAODplus extension</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_deltaPhiSC</td>
+<td>delta phi (SC,ele) with sign</td>
+<td>Float_t</td>
+<td>Calc phi from cluster - Emtrkph</td>
+<td>Undef</td>
+<td>cal</td>
+</tr>
+<tr>
+<td>Electron_deltaPhiSCtr</td>
+<td>NanoAODplus extension</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03EcalRecHitSumEt</td>
+<td>Non-PF Ecal isolation within a delta R cone of 0.3 with electron pt &gt; 35 GeV</td>
+<td>Float_t</td>
+<td>Needed further investigations</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03EcalRecHitSumEtOld</td>
+<td>Non-PF Ecal isolation within a delta R cone of 0.3</td>
+<td>Float_t</td>
+<td>Needed further investigations</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03HcalDepth1TowerSumEt</td>
+<td>Non-PF Hcal isolation within a delta R cone of 0.3 with electron pt &gt; 35 GeV</td>
+<td>Float_t</td>
+<td>Needed further investigations</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03HcalDepth1TowerSumEtOld</td>
+<td>Non-PF Hcal isolation within a delta R cone of 0.3</td>
+<td>Float_t</td>
+<td>Needed further investigations</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03HcalTowerSumEt</td>
+<td>NanoAODplus extension</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03TkSumPt</td>
+<td>Non-PF track isolation within a delta R cone of 0.3 with electron pt &gt; 35 GeV</td>
+<td>Float_t</td>
+<td>Emetneartrk[EmNcand][1]  (make log scale)</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dr03TkSumPtOld</td>
+<td>old: Non-PF track isolation within a delta R cone of 0.3</td>
+<td>Float_t</td>
+<td>Emetneartrk[EmNcand][1]  (make log scale)</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dxy</td>
+<td>dxy (with sign) wrt first PV, in cm</td>
+<td>Float_t</td>
+<td>Emdcabeam[EmNcand] hist range up to 2</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dxyErr</td>
+<td>dxy uncertainty, in cm</td>
+<td>Float_t</td>
+<td>dxy = 0.2 cm</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dz</td>
+<td>dz (with sign) wrt first PV, in cm</td>
+<td>Float_t</td>
+<td>sqrt( Emdca[EmNcand]^2 - Emdcabeam[EmNcand]^2 )</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_dzErr</td>
+<td>dz uncertainty, in cm</td>
+<td>Float_t</td>
+<td>dz = 0.4 cm</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_eInvMinusPInv</td>
+<td>1/E_SC - 1/p_trk</td>
+<td>Float_t</td>
+<td>1/Emcalene[EmNcand] - 1/Emtrkp[EmNcand]</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_eInvMinusPInvOld</td>
+<td>NanoAODplus Run1</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_eta</td>
+<td>eta</td>
+<td>Float_t</td>
+<td>— ln ( tan ( Emtrkth[ EmNcand ] / 2 ) )</td>
+<td>True</td>
+<td>trk</td>
+</tr>
+<tr>
+<td>Electron_genPartIdx</td>
+<td>GenPart index of the associated true electron (-1 if none)</td>
+<td>Int_t (index to Genpart)</td>
+<td>-1</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_hoe</td>
+<td>H over E</td>
+<td>Float_t</td>
+<td>(1/Emfemc[EmNcand]) - 1</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_ip3d</td>
+<td>3D impact parameter wrt first PV, in cm</td>
+<td>Float_t</td>
+<td>Emdca[EmNcand]</td>
+<td>True</td>
+<td>trk</td>
+</tr>
+<tr>
+<td>Electron_isEB</td>
+<td>NanoAODplus extension</td>
+<td>Bool_t</td>
+<td>-120 &lt; Empos[2] &lt; 200</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_isEE</td>
+<td>NanoAODplus extension</td>
+<td>Bool_t</td>
+<td>!(-120 &lt; Empos[2] &lt; 200)</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_isNano</td>
+<td>NanoAODplus extension</td>
+<td>Bool_t</td>
+<td>true for all</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_isPFcand</td>
+<td>NanoAODplus extension</td>
+<td>Bool_t</td>
+<td>true for all</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_lostHits</td>
+<td>NanoAODplus extension</td>
+<td>UChar_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_mass</td>
+<td>mass</td>
+<td>Float_t</td>
+<td>take it from PDG</td>
+<td>True</td>
+<td>cal/trk</td>
+</tr>
+<tr>
+<td>Electron_nNano</td>
+<td>electron that follows nanoAOD cut (pT &lt; 5 GeV)</td>
+<td>UInt_t</td>
+<td>Emncand</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_pfRelIso03_all</td>
+<td>PF relative isolation dR=0.3</td>
+<td>Float_t</td>
+<td>Emenin[EmNcand] / Empt[EmNcand]</td>
+<td>True</td>
+<td>cal</td>
+</tr>
+<tr>
+<td>Electron_pfRelIso03_chg</td>
+<td>PF relative isolation dR=0.3, charged component</td>
+<td>Float_t</td>
+<td>Emetneartrk[EmNcand][1] / Empt[EmNcand]</td>
+<td>True</td>
+<td>cal</td>
+</tr>
+<tr>
+<td>Electron_phi</td>
+<td>phi</td>
+<td>Float_t</td>
+<td>Emtrkph[EmNcand]</td>
+<td>True</td>
+<td>trk</td>
+</tr>
+<tr>
+<td>Electron_pt</td>
+<td>pt</td>
+<td>Float_t</td>
+<td>Empt[EmNcand]</td>
+<td>True</td>
+<td>cal</td>
+</tr>
+<tr>
+<td>Electron_sieie</td>
+<td>sigma_IetaIeta of the supercluster, calculated with full 5x5 region</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_sieieR1</td>
+<td>NanoAODplus Run1</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_simId</td>
+<td>GenPart Id of the associated true electron (-1 if none)</td>
+<td>Int_t</td>
+<td>-l for every cand</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_sip3d</td>
+<td>3D impact parameter significance wrt first PV, in cm</td>
+<td>Float_t</td>
+<td></td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_tightCharge</td>
+<td>tight charge criteria</td>
+<td>Int_t</td>
+<td>2???</td>
+<td>Undef</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_vtxIdx</td>
+<td>index of the associated primary vertex (-1 if none)</td>
+<td>Int_t (index to Vtx)</td>
+<td>-l for each cand</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_x</td>
+<td>x point of closest approach to beam line, in cm</td>
+<td>Float_t</td>
+<td>Trk_pca[trk_ntracks][0]</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_y</td>
+<td>y point of closest approach to beam line, in cm</td>
+<td>Float_t</td>
+<td>Trk_pca[trk_ntracks][1]</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>Electron_z</td>
+<td>z point of closest approach to beam line, in cm</td>
+<td>Float_t</td>
+<td>Trk_pca[trk_ntracks][2]</td>
+<td>True</td>
+<td></td>
+</tr>
+<tr>
+<td>nElectron</td>
+<td>number of Electrons</td>
+<td>UInt_t</td>
+<td>Emncand</td>
+<td>True</td>
+<td></td>
+</tr>
+</tbody>
+</table>

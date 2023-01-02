@@ -1,0 +1,85 @@
+[imelnyk@naf-zeus12]~/zeus2cms% pwd
+/afs/desy.de/user/i/imelnyk/zeus2cms
+[imelnyk@naf-zeus12]~/zeus2cms% root -l -q zeustocms.C
+
+Processing zeustocms.C...
+[imelnyk@naf-zeus12]~/zeus2cms% root -l -q cmsanalysis_07p.C
+
+Processing cmsanalysis_07p.C...
+-------------------------------
+ CMS nanoAODv8 - ANALYSIS
+-------------------------------
+-------------------------------
+ ATLAS DATA - 2012
+-------------------------------
+- Reading files -> /nfs/dust/zeus/group/schwenzr/ZEUStoCMSfiles_test/zeustocms_07p.root
+Warning in <TTree::SetBranchStatus>: unknown branch -> Muon_cleanmask
+Warning in <TTree::SetBranchStatus>: unknown branch -> Electron_cleanmask
+Warning in <TTree::SetBranchStatus>: unknown branch -> Tau_cleanmask
+Error in <TChain::SetBranchAddress>: The pointer type given "ULong64_t" (17) does not correspond to the type needed "Int_t" (3) by the branch: event
+Error in <TChain::SetBranchAddress>: The pointer type given "UInt_t" (13) does not correspond to the type needed "Int_t" (3) by the branch: run
+Error in <TChain::SetBranchAddress>: The pointer type given "UInt_t" (13) does not correspond to the type needed "Int_t" (3) by the branch: luminosityBlock
+Error in <TChain::SetBranchAddress>: unknown branch -> PV_npvs
+Error in <TChain::SetBranchAddress>: unknown branch -> TrigObj_id
+Error in <TChain::SetBranchAddress>: The pointer type given "UInt_t" (13) does not correspond to the type needed "Int_t" (3) by the branch: nMuon
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_dxyErr
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_ip3d
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_sip3d
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_pfRelIso03_chg
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_pfRelIso03_all
+Error in <TChain::SetBranchAddress>: unknown branch -> Muon_pfRelIso04_all
+Error in <TChain::SetBranchAddress>: The pointer type given "Bool_t" (18) does not correspond to the type needed "Char_t" (1) by the branch: Muon_isGlobal
+Error in <TChain::SetBranchAddress>: The pointer type given "Bool_t" (18) does not correspond to the type needed "Char_t" (1) by the branch: Muon_softId
+Error in <TChain::SetBranchAddress>: The pointer type given "Bool_t" (18) does not correspond to the type needed "Char_t" (1) by the branch: Muon_isTracker
+Error in <TChain::SetBranchAddress>: The pointer type given "Bool_t" (18) does not correspond to the type needed "Char_t" (1) by the branch: Muon_isPFcand
+Error in <TChain::SetBranchAddress>: unknown branch -> nElectron
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_pt
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_eta
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_phi
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_dz
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_charge
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_dxy
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_dxyErr
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_ip3d
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_sip3d
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_pfRelIso03_chg
+Error in <TChain::SetBranchAddress>: unknown branch -> Electron_pfRelIso03_all
+Error in <TChain::SetBranchAddress>: unknown branch -> nTau
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_pt
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_eta
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_phi
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_dz
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_charge
+Error in <TChain::SetBranchAddress>: unknown branch -> Tau_dxy
+- Entries # 82328276
+Warning in <TTree::SetBranchStatus>: unknown branch -> Muon_cleanmask
+Warning in <TTree::SetBranchStatus>: unknown branch -> Electron_cleanmask
+Warning in <TTree::SetBranchStatus>: unknown branch -> Tau_cleanmask
+Error in <TTree::SetBranchStatus>: unknown branch -> PV_npvs
+Error in <TTree::SetBranchStatus>: unknown branch -> TrigObj_id
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_dxyErr
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_ip3d
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_sip3d
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_pfRelIso03_chg
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_pfRelIso03_all
+Error in <TTree::SetBranchStatus>: unknown branch -> Muon_pfRelIso04_all
+Error in <TTree::SetBranchStatus>: unknown branch -> nElectron
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_pt
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_eta
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_phi
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_dz
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_charge
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_dxy
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_dxyErr
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_ip3d
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_sip3d
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_pfRelIso03_chg
+Error in <TTree::SetBranchStatus>: unknown branch -> Electron_pfRelIso03_all
+Error in <TTree::SetBranchStatus>: unknown branch -> nTau
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_pt
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_eta
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_phi
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_dz
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_charge
+Error in <TTree::SetBranchStatus>: unknown branch -> Tau_dxy
+- Entry # 0

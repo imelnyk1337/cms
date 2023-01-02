@@ -1,0 +1,28 @@
+to get appropriate root setup:
+source /cvmfs/sft.cern.ch/lcg/views/LCG_98/x86_64-centos7-gcc8-opt/setup.sh
+
+To activate items in Jupyter notebook panels:
+Click on panel to put the focus on the code 
+type <ctrl> <enter>
+changing input file did not work (hangup)
+
+MuHistos_eospublic.cxx++ ######done
+takes 40 minutes on naf-cms24
+takes  5 minutes on lxplus
+
+MuHistos_local.cxx++ ######done
+takes 5 minutes on naf-cms24 after sourcing, 5-10 minutes before sourcing,
+no obvious time difference upon repeated execution.
+
+Downloading from eospublic to DESY dust with xdrcp:
+takes 40 min/50 GB 
+
+Dimuon2011_eospublic.C 
+takes hours when executed from naf-cms24
+
+Dimuon2011_local.C ######done 1 time
+takes 30 min when executed for the first time, 10 min when executed 
+the second time on naf-cms24
+
+Some interference with other activity. Need to try some of the timings again 
+when naf will be "empty".   
